@@ -37,18 +37,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("Google sign-in successful:", result.user.email);
+    } catch (error: any) {
       console.error("Error signing in with Google:", error);
+      if (error.code === 'auth/popup-closed-by-user') {
+        alert('Sign-in popup was closed. Please try again.');
+      } else if (error.code === 'auth/unauthorized-domain') {
+        alert('This domain is not authorized. Please add it to Firebase Console.');
+      } else {
+        alert(`Authentication error: ${error.message}`);
+      }
       throw error;
     }
   };
 
   const signInWithGithub = async () => {
     try {
-      await signInWithPopup(auth, githubProvider);
-    } catch (error) {
+      const result = await signInWithPopup(auth, githubProvider);
+      console.log("GitHub sign-in successful:", result.user.email);
+    } catch (error: any) {
       console.error("Error signing in with GitHub:", error);
+      if (error.code === 'auth/popup-closed-by-user') {
+        alert('Sign-in popup was closed. Please try again.');
+      } else if (error.code === 'auth/unauthorized-domain') {
+        alert('This domain is not authorized. Please add it to Firebase Console.');
+      } else {
+        alert(`Authentication error: ${error.message}`);
+      }
       throw error;
     }
   };
