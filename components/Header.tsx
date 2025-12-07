@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
@@ -25,10 +26,12 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
               {user.photoURL && (
-                <img
+                <Image
                   src={user.photoURL}
                   alt={user.displayName || "User"}
-                  className="w-10 h-10 rounded-full border-2 border-primary"
+                  width={40}
+                  height={40}
+                  className="rounded-full border-2 border-primary"
                 />
               )}
               <div className="hidden md:block">

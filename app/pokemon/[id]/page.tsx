@@ -1,9 +1,11 @@
+import Image from "next/image";
 import { pokeApi } from "@/lib/api";
 import { Pokemon } from "@/types/pokemon";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   try {
-    const pokemon: Pokemon = await pokeApi.getPokemonDetails(params.id);
+    const pokemon: Pokemon = await pokeApi.getPokemonDetails(resolvedParams.id);
     
     return {
       title: `${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} - Pokedex Lite`,
@@ -22,9 +24,10 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export default async function PokemonPage({ params }: { params: { id: string } }) {
+export default async function PokemonPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   try {
-    const pokemon: Pokemon = await pokeApi.getPokemonDetails(params.id);
+    const pokemon: Pokemon = await pokeApi.getPokemonDetails(resolvedParams.id);
     
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
@@ -34,10 +37,12 @@ export default async function PokemonPage({ params }: { params: { id: string } }
           
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="text-center">
-              <img
+              <Image
                 src={pokemon.sprites.other["official-artwork"].front_default}
                 alt={pokemon.name}
-                className="w-64 h-64 mx-auto"
+                width={256}
+                height={256}
+                className="mx-auto"
               />
             </div>
             

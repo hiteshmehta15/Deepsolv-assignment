@@ -35,14 +35,6 @@ export default function PokemonClient({ initialPokemon }: PokemonClientProps) {
     setFavorites(savedFavorites);
   }, []);
 
-  useEffect(() => {
-    filterPokemon();
-  }, [searchQuery, selectedTypes, allPokemon]);
-
-  useEffect(() => {
-    updateDisplayedPokemon();
-  }, [filteredPokemon, currentPage]);
-
   const filterPokemon = () => {
     let filtered = [...allPokemon];
 
@@ -62,6 +54,10 @@ export default function PokemonClient({ initialPokemon }: PokemonClientProps) {
     setCurrentPage(1);
   };
 
+  useEffect(() => {
+    filterPokemon();
+  }, [searchQuery, selectedTypes, allPokemon]);
+
   const updateDisplayedPokemon = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -69,6 +65,10 @@ export default function PokemonClient({ initialPokemon }: PokemonClientProps) {
     setDisplayedPokemon(paginated);
     setTotalPages(Math.ceil(filteredPokemon.length / ITEMS_PER_PAGE));
   };
+
+  useEffect(() => {
+    updateDisplayedPokemon();
+  }, [filteredPokemon, currentPage]);
 
   const handleToggleFavorite = (id: number) => {
     const newFavorites = favoritesStorage.toggleFavorite(id);
