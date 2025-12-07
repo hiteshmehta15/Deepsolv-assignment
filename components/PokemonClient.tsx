@@ -27,12 +27,16 @@ export default function PokemonClient({ initialPokemon }: PokemonClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(initialPokemon.length === 0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const savedFavorites = favoritesStorage.getFavorites();
     setFavorites(savedFavorites);
+    
+    if (initialPokemon.length === 0) {
+      fetchInitialPokemon();
+    }
   }, []);
 
   const filterPokemon = () => {
@@ -88,6 +92,26 @@ export default function PokemonClient({ initialPokemon }: PokemonClientProps) {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const fetchInitialPokemon = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const listResponse = await pokeApi.getPokemonList(150, 0);
+      
+      const pokemonDetails = await Promise.all(
+        listResponse.results.map(async (item: { name: string }) => {
+          return await pokeApi.getPokemonDetails(item.name);
+        })
+      );
+
+      setAllPokemon(pokemonDetails);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load Pokemon");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchMorePokemon = async () => {

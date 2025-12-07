@@ -3,26 +3,9 @@ import { Pokemon } from "@/types/pokemon";
 import Header from "@/components/Header";
 import PokemonClient from "@/components/PokemonClient";
 
-async function getInitialPokemon(): Promise<Pokemon[]> {
-  try {
-    const listResponse = await pokeApi.getPokemonList(150, 0);
-    
-    const pokemonDetails = await Promise.all(
-      listResponse.results.map(async (item: { name: string }) => {
-        return await pokeApi.getPokemonDetails(item.name);
-      })
-    );
+export const dynamic = 'force-dynamic';
 
-    return pokemonDetails;
-  } catch (error) {
-    console.error("Failed to fetch initial Pokemon:", error);
-    return [];
-  }
-}
-
-export default async function Home() {
-  const initialPokemon = await getInitialPokemon();
-
+export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <Header />
@@ -32,7 +15,7 @@ export default async function Home() {
           <p className="text-gray-600">Discover and explore Pokemon</p>
         </header>
 
-        <PokemonClient initialPokemon={initialPokemon} />
+        <PokemonClient initialPokemon={[]} />
       </div>
     </main>
   );
