@@ -14,7 +14,7 @@ export default function TypeFilter({
   onClearAll,
 }: TypeFilterProps) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-white rounded-lg shadow-md p-4 animate-slide-in">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Filter by Type</h3>
         {selectedTypes.length > 0 && (
@@ -33,10 +33,10 @@ export default function TypeFilter({
             <button
               key={type}
               onClick={() => onToggleType(type)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 isSelected
                   ? "text-white shadow-lg transform scale-105"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105"
               }`}
               style={
                 isSelected

@@ -22,7 +22,7 @@ export default function PokemonCard({
     pokemon.sprites.front_default;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer animate-fade-in">
       <div className="relative">
         <div
           className="absolute top-2 right-2 z-10"
