@@ -12,6 +12,7 @@ import Pagination from "@/components/Pagination";
 import PokemonDetailModal from "@/components/PokemonDetailModal";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorMessage from "@/components/ErrorMessage";
+import Header from "@/components/Header";
 
 export default function Home() {
   const [allPokemon, setAllPokemon] = useState<Pokemon[]>([]);
@@ -109,6 +110,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <Header />
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
           <h1 className="text-5xl font-bold text-primary mb-2">Pokedex Lite</h1>
